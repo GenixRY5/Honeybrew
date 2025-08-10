@@ -1,1 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HoneyBrew — Menu</title>
+  <meta name="description" content="HoneyBrew Coffee Co. — premium menu: signature brews, cold drinks, teas and treats.">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
+  <style>
+    :root{
+      --bg: #073f35;             /* deep green */
+      --panel: #f9f6f2;          /* warm cream */
+      --muted: #7a6b58;
+      --gold: #d9a34a;
+      --dark: #072b26;
+      --radius: 14px;
+      --glass: rgba(255,255,255,0.06);
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,var(--bg), #042a25);
+      -webkit-font-smoothing:antialiased;
+      color:var(--panel);
+      padding:28px;
+      display:flex;
+      justify-content:center;
+    }
+
+    /* centered frame */
+    .site{
+      width:100%;
+      max-width:1100px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+      border-radius:18px;
+      box-shadow: 0 20px 50px rgba(2,11,8,0.6);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.03);
+      display:grid;
+      grid-template-columns: 380px 1fr;
+      gap:0;
+    }
+
+    /* LEFT PANE - Branding & nav */
+    .left{
+      background:linear-gradient(180deg,var(--dark), #0b2f2b);
+      padding:36px 28px;
+      display:flex;flex-direction:column;gap:18px;
+    }
+    .logo-wrap{display:flex;align-items:center;gap:16px}
+    .logo-wrap img{
+      width:78px; height:78px; object-fit:contain; border-radius:12px; background:rgba(255,255,255,0.02); padding:8px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.5);
+    }
+    .brand-title{font-family:"Playfair Display",serif;color:var(--panel);font-size:22px;margin:0}
+    .brand-sub{color:var(--panel);opacity:0.85;font-size:13px;margin-top:4px}
+
+    nav.side-nav{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    nav.side-nav a{
+      text-decoration:none;color:var(--panel);display:inline-block;padding:10px 12px;border-radius:10px;font-weight:600;
+      transition:transform .18s ease, background .18s ease; border:1px solid rgba(255,255,255,0.03);
+    }
+    nav.side-nav a:hover{transform:translateX(6px); background:linear-gradient(90deg, rgba(217,163,74,0.06), rgba(217,163,74,0.03));}
+
+    /* highlight card */
+    .card{
+      margin-top:auto;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+      padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);
+    }
+    .card h4{margin:4px 0 6px 0;font-family:"Playfair Display";font-size:18px}
+    .card p{margin:0;color:var(--panel);opacity:0.9;font-size:13px}
+
+    /* RIGHT PANE - Menu */
+    .right{
+      padding:36px;
+      background:
+        radial-gradient(800px 300px at 90% 10%, rgba(217,163,74,0.05), transparent 8%),
+        linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+    }
+
+    header.menu-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .title{
+      font-family:"Playfair Display",serif;font-size:34px;margin:0;color:var(--panel);
+    }
+    .tag{color:var(--panel);opacity:0.9;font-size:13px;margin-top:6px}
+
+    .download-link{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:var(--panel);text-decoration:none;font-weight:600;
+      display:inline-flex;gap:10px;align-items:center;
+    }
+    .download-link .dot{width:10px;height:10px;background:var(--gold);border-radius:50%}
+
+    /* Section style */
+    section.menu-section{margin-top:26px}
+    section.menu-section h3{
+      font-family:"Playfair Display";font-size:20px;margin:0 0 12px 0;color:var(--panel)
+    }
+
+    .menu-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+    .menu-item{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+      border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.02);
+      display:flex;justify-content:space-between;gap:12px;align-items:flex-start;
+      transition:transform .15s ease, box-shadow .18s ease;
+    }
+    .menu-item:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,8,6,0.45)}
+    .menu-meta{max-width:68%}
+    .menu-name{font-weight:700;font-size:15px;color:var(--panel)}
+    .menu-desc{font-size:13px;color:var(--panel);opacity:0.85;margin-top:6px}
+    .menu-price{font-weight:800;color:var(--gold);font-size:15px;white-space:nowrap}
+
+    /* single-column on small screens */
+    @media (max-width:980px){
+      .site{grid-template-columns:1fr; margin:16px;}
+      .left{order:2}
+      .right{order:1;padding:22px}
+      .menu-grid{grid-template-columns:1fr}
+    }
+
+    /* print */
+    @media print{
+      body{padding:0;background:#fff;color:#000}
+      .site{box-shadow:none;border:none;background:#fff;color:#000}
+      .left, .download-link{display:none}
+    }
+
+    /* small touches */
+    .accent-line{height:3px;background:linear-gradient(90deg,var(--gold), #ffdf9f);border-radius:4px;margin:10px 0 18px 0}
+    .contact{margin-top:22px;font-size:13px;color:var(--panel);opacity:0.95}
+    .role{color:var(--muted);font-size:12px;margin-top:6px}
+  </style>
+</head>
+
+<body>
+  <div class="site" role="application" aria-label="HoneyBrew menu">
+    <!-- LEFT -->
+    <aside class="left" aria-hidden="false">
+      <div class="logo-wrap">
+        <!-- Put your logo file named 'logo.png' in the same folder or change the src -->
+        <img src="logo.png" alt="HoneyBrew logo" id="siteLogo">
+        <div>
+          <div class="brand-title">HoneyBrew</div>
+          <div class="brand-sub">Coffee shop • Estd. 2025</div>
+        </div>
+      </div>
+
+      <nav class="side-nav" aria-label="Quick navigation">
+        <a href="#signature">Signature Brews</a>
+        <a href="#cold">Cold & Refreshing</a>
+        <a href="#not-coffee">Not Coffee</a>
+        <a href="#treats">Treats & Bites</a>
+        <a href="#contact">Contact & Hours</a>
+      </nav>
+
+      <div class="card" role="note" aria-label="Featured">
+        <h4>Barista’s Pick</h4>
+        <p>Try <strong>Honeyblend No.1</strong> — balanced caramel notes, light citrus finish. Roasted weekly.</p>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h4>Our Hive</h4>
+        <div class="contact">
+          <strong>Adam Williams</strong><div class="role">Phone: 2522116</div>
+          <strong style="margin-top:8px;display:block">Archer</strong><div class="role">[Add contact]</div>
+          <strong style="margin-top:8px;display:block">Erika</strong><div class="role">[Add contact]</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT -->
+    <main class="right">
+      <header class="menu-head" role="banner">
+        <div>
+          <h1 class="title">HoneyBrew Menu</h1>
+          <div class="tag">Warm. Sweet. Sustainably sourced.</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+          <!-- If you generated Honeybrew_Menu_Branded.pdf and put it in the same folder, this downloads it -->
+          <a class="download-link" href="Honeybrew_Menu_Branded.pdf" download>
+            <span class="dot" aria-hidden="true"></span>
+            Download Menu (PDF)
+          </a>
+          <div style="font-size:12px;color:var(--panel);opacity:0.85">Open Mon–Sat • 8:00–18:00</div>
+        </div>
+      </header>
+
+      <div class="accent-line" aria-hidden="true"></div>
+
+      <!-- Signature -->
+      <section id="signature" class="menu-section" aria-labelledby="sigHeading">
+        <h3 id="sigHeading">Signature Brews</h3>
+        <div class="menu-grid">
+          <article class="menu-item" aria-labelledby="m1">
+            <div class="menu-meta">
+              <div id="m1" class="menu-name">The Honeybrew Latte</div>
+              <div class="menu-desc">Smooth espresso, steamed milk with a local honey drizzle.</div>
+            </div>
+            <div class="menu-price">₹220</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="m2">
+            <div class="menu-meta">
+              <div id="m2" class="menu-name">Archer’s Arrow</div>
+              <div class="menu-desc">Triple-shot, dark chocolate & a whisper of chili — bold finish.</div>
+            </div>
+            <div class="menu-price">₹260</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="m3">
+            <div class="menu-meta">
+              <div id="m3" class="menu-name">Erika’s Bloom</div>
+              <div class="menu-desc">Lavender-infused cappuccino with vanilla foam — floral & smooth.</div>
+            </div>
+            <div class="menu-price">₹240</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="m4">
+            <div class="menu-meta">
+              <div id="m4" class="menu-name">Adam’s Gold (Cold Brew)</div>
+              <div class="menu-desc">Slow-steeped cold brew, oat milk, topped with honey foam.</div>
+            </div>
+            <div class="menu-price">₹260</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="m5">
+            <div class="menu-meta">
+              <div id="m5" class="menu-name">Sweet Hive Mocha</div>
+              <div class="menu-desc">Chocolate mocha with cinnamon honey whip.</div>
+            </div>
+            <div class="menu-price">₹240</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Cold -->
+      <section id="cold" class="menu-section" aria-labelledby="coldHeading">
+        <h3 id="coldHeading">Cold & Refreshing</h3>
+        <div class="menu-grid">
+          <article class="menu-item" aria-labelledby="c1">
+            <div class="menu-meta">
+              <div id="c1" class="menu-name">Beechill Cold Brew</div>
+              <div class="menu-desc">Iced cold brew with a bright citrus lift.</div>
+            </div>
+            <div class="menu-price">₹200</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="c2">
+            <div class="menu-meta">
+              <div id="c2" class="menu-name">Golden Iced Latte</div>
+              <div class="menu-desc">Honey, turmeric & vanilla — chilled and velvety.</div>
+            </div>
+            <div class="menu-price">₹220</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="c3">
+            <div class="menu-meta">
+              <div id="c3" class="menu-name">Mint Hive Fizz</div>
+              <div class="menu-desc">Espresso tonic with fresh mint — brisk & refreshing.</div>
+            </div>
+            <div class="menu-price">₹230</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="c4">
+            <div class="menu-meta">
+              <div id="c4" class="menu-name">Caramel Hive Shake</div>
+              <div class="menu-desc">Coffee milkshake with honey-caramel drizzle.</div>
+            </div>
+            <div class="menu-price">₹270</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Not Coffee -->
+      <section id="not-coffee" class="menu-section" aria-labelledby="ncHeading">
+        <h3 id="ncHeading">Not Coffee</h3>
+        <div class="menu-grid">
+          <article class="menu-item" aria-labelledby="nc1">
+            <div class="menu-meta">
+              <div id="nc1" class="menu-name">Matcha Meadow Latte</div>
+              <div class="menu-desc">Stone-ground matcha with honey syrup and steamed milk.</div>
+            </div>
+            <div class="menu-price">₹240</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="nc2">
+            <div class="menu-meta">
+              <div id="nc2" class="menu-name">Honey Lemon Ginger Tea</div>
+              <div class="menu-desc">Soothing, bright & perfect for chilly days.</div>
+            </div>
+            <div class="menu-price">₹150</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="nc3">
+            <div class="menu-meta">
+              <div id="nc3" class="menu-name">Spiced Chai Hive</div>
+              <div class="menu-desc">Masala chai with extra honey and cardamom.</div>
+            </div>
+            <div class="menu-price">₹160</div>
+          </article>
+
+          <article class="menu-item" aria-labelledby="nc4">
+            <div class="menu-meta">
+              <div id="nc4" class="menu-name">Bee-Free Hot Chocolate</div>
+              <div class="menu-desc">Rich, velvety chocolate topped with marshmallows.</div>
+            </div>
+            <div class="menu-price">₹170</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Treats -->
+      <section id="treats" class="menu-section" aria-labelledby="tHeading">
+        <h3 id="tHeading">Treats & Bites</h3>
+        <div class="menu-grid">
+          <article class="menu-item">
+            <div class="menu-meta">
+              <div class="menu-name">Honey Almond Biscotti</div>
+              <div class="menu-desc">Crisp, twice-baked, perfect for dipping.</div>
+            </div>
+            <div class="menu-price">₹90</div>
+          </article>
+
+          <article class="menu-item">
+            <div class="menu-meta">
+              <div class="menu-name">Bee’s Knees Cheesecake</div>
+              <div class="menu-desc">Mini cheesecake with a honey-glazed top.</div>
+            </div>
+            <div class="menu-price">₹220</div>
+          </article>
+
+          <article class="menu-item">
+            <div class="menu-meta">
+              <div class="menu-name">Lavender Shortbread</div>
+              <div class="menu-desc">Buttery shortbread scented with lavender.</div>
+            </div>
+            <div class="menu-price">₹80</div>
+          </article>
+
+          <article class="menu-item">
+            <div class="menu-meta">
+              <div class="menu-name">Cinnamon Swirl Muffin</div>
+              <div class="menu-desc">Soft, warm and cinnamony — bakery fresh.</div>
+            </div>
+            <div class="menu-price">₹120</div>
+          </article>
+
+          <article class="menu-item">
+            <div class="menu-meta">
+              <div class="menu-name">Peanut Butter Bee Cookies</div>
+              <div class="menu-desc">Chewy cookies with a salty-sweet finish.</div>
+            </div>
+            <div class="menu-price">₹70</div>
+          </article>
+        </div>
+      </section>
+
+      <div id="contact" style="margin-top:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.02)">
+        <h3 style="font-family:'Playfair Display';margin:0 0 10px 0">Contact & Hours</h3>
+        <div style="display:flex;gap:20px;flex-wrap:wrap">
+          <div style="min-width:220px">
+            <strong>Adam Williams</strong><div style="font-size:13px;color:var(--panel);opacity:0.9">Phone: 2522116</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:6px">Email: <em>hello@honeybrew.example</em> (add yours)</div>
+          </div>
+
+          <div style="min-width:220px">
+            <strong>Archer</strong><div style="font-size:13px;color:var(--muted)">[Add contact]</div>
+            <strong style="margin-top:8px;display:block">Erika</strong><div style="font-size:13px;color:var(--muted)">[Add contact]</div>
+          </div>
+
+          <div style="min-width:200px">
+            <strong>Hours</strong>
+            <div style="font-size:13px;color:var(--muted)">Mon – Sat: 8:00 — 18:00<br>Sun: Closed</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // Smooth anchor scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        const id = this.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    // If logo missing, hide img gracefully
+    const logo = document.getElementById('siteLogo');
+    logo.onerror = function(){ this.style.display = 'none'; };
+  </script>
+</body>
+</html>
